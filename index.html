@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Love Calculator 💗</title>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&display=swap');
+
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff9ecf, #ffd1e8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Baloo 2', cursive;
+    overflow: hidden;
+  }
+
+  .calculator {
+    background: #ff5fa2;
+    padding: 40px;
+    border-radius: 35px;
+    width: 360px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    text-align: center;
+  }
+
+  .title {
+    font-size: 36px;
+    color: white;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 0 #ff9ecf;
+  }
+
+  input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 15px;
+    border-radius: 20px;
+    border: none;
+    font-size: 18px;
+    text-align: center;
+    outline: none;
+  }
+
+  button {
+    width: 100%;
+    padding: 16px;
+    background: #fff;
+    border: none;
+    border-radius: 25px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #ff2f92;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  button:hover {
+    transform: scale(1.05);
+  }
+
+  .result {
+    margin-top: 20px;
+    font-size: 26px;
+    color: white;
+    text-shadow: 2px 2px 0 #ff8fc7;
+    min-height: 60px;
+  }
+
+  /* 💗 Hearts */
+  .heart {
+    position: absolute;
+    bottom: -20px;
+    font-size: 28px;
+    animation: floatUp 6s linear forwards;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="calculator">
+  <div class="title">Love Calculator 💕</div>
+
+  <input type="text" id="name1" placeholder="First name 💗">
+  <input type="text" id="name2" placeholder="Second name 💗">
+
+  <button onclick="calculateLove()">CALCULATE 💘</button>
+
+  <div class="result" id="result"></div>
+</div>
+
+<audio id="loveSong" src="fireproof.mp3" preload="auto"></audio>
+
+<script>
+  function calculateLove() {
+    const n1 = document.getElementById("name1").value.trim().toLowerCase();
+    const n2 = document.getElementById("name2").value.trim().toLowerCase();
+    const result = document.getElementById("result");
+    const song = document.getElementById("loveSong");
+
+    song.pause();
+    song.currentTime = 0;
+    result.innerHTML = "";
+
+    const hasHassan = n1 === "hassan" || n2 === "hassan";
+    const hasMaliha = n1 === "maliha" || n2 === "maliha";
+
+    if (
+      (n1 === "hassan" && n2 === "maliha") ||
+      (n1 === "maliha" && n2 === "hassan")
+    ) {
+      result.innerHTML = "💖 1000000000000000000000% 💖<br>SOULMATES FOREVER 💗";
+      song.play();
+      spawnHearts();
+      return;
+    }
+
+    if ((hasHassan && !hasMaliha) || (hasMaliha && !hasHassan)) {
+      result.innerHTML = "💔 0% 💔<br>ABSOLUTELY NOT";
+      return;
+    }
+
+    const random = Math.floor(Math.random() * 101);
+    result.innerHTML = `💞 ${random}% 💞`;
+  }
+
+  function spawnHearts() {
+    let count = 0;
+    const interval = setInterval(() => {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = "💗";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 4 + Math.random() * 3 + "s";
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 7000);
+      count++;
+      if (count > 40) clearInterval(interval);
+    }, 150);
+  }
+
+  // autoplay safety
+  document.addEventListener("click", () => {
+    document.getElementById("loveSong").play().catch(() => {});
+  }, { once: true });
+</script>
+
+</body>
+</html>
