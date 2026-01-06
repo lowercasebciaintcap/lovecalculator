@@ -67,10 +67,10 @@
     font-size: 26px;
     color: white;
     text-shadow: 2px 2px 0 #ff8fc7;
-    min-height: 60px;
+    min-height: 70px;
   }
 
-  /* 💗 Hearts */
+  /* 💗 Floating Hearts */
   .heart {
     position: absolute;
     bottom: -20px;
@@ -98,37 +98,47 @@
   <div class="result" id="result"></div>
 </div>
 
+<!-- 🎵 LOVE SONG -->
 <audio id="loveSong" src="fireproof.mp3" preload="auto"></audio>
 
 <script>
+  const loveSong = document.getElementById("loveSong");
+  const result = document.getElementById("result");
+
+  function stopSong() {
+    loveSong.pause();
+    loveSong.currentTime = 0;
+  }
+
   function calculateLove() {
     const n1 = document.getElementById("name1").value.trim().toLowerCase();
     const n2 = document.getElementById("name2").value.trim().toLowerCase();
-    const result = document.getElementById("result");
-    const song = document.getElementById("loveSong");
 
-    song.pause();
-    song.currentTime = 0;
+    stopSong();
     result.innerHTML = "";
 
     const hasHassan = n1 === "hassan" || n2 === "hassan";
     const hasMaliha = n1 === "maliha" || n2 === "maliha";
 
+    // 💖 PERFECT MATCH
     if (
       (n1 === "hassan" && n2 === "maliha") ||
       (n1 === "maliha" && n2 === "hassan")
     ) {
-      result.innerHTML = "💖 1000000000000000000000% 💖<br>SOULMATES FOREVER 💗";
-      song.play();
+      result.innerHTML =
+        "💖 1000000000000000000000% 💖<br>SOULMATES FOREVER 💗";
+      loveSong.play();
       spawnHearts();
       return;
     }
 
+    // 💔 ZERO RULE
     if ((hasHassan && !hasMaliha) || (hasMaliha && !hasHassan)) {
       result.innerHTML = "💔 0% 💔<br>ABSOLUTELY NOT";
       return;
     }
 
+    // 🎲 RANDOM RESULT
     const random = Math.floor(Math.random() * 101);
     result.innerHTML = `💞 ${random}% 💞`;
   }
@@ -146,13 +156,12 @@
       setTimeout(() => heart.remove(), 7000);
       count++;
       if (count > 40) clearInterval(interval);
-    }, 150);
+    }, 120);
   }
 
-  // autoplay safety
-  document.addEventListener("click", () => {
-    document.getElementById("loveSong").play().catch(() => {});
-  }, { once: true });
+  // 🛑 STOP MUSIC IF NAMES CHANGE
+  document.getElementById("name1").addEventListener("input", stopSong);
+  document.getElementById("name2").addEventListener("input", stopSong);
 </script>
 
 </body>
